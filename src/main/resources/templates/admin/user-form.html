@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Form</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: inline-block; width: 150px; font-weight: bold; }
+        input[type="text"], input[type="password"], input[type="email"] { 
+            width: 300px; padding: 8px; border: 1px solid #ddd; border-radius: 4px; 
+        }
+        .checkbox-group { display: inline-block; vertical-align: top; }
+        .checkbox-group label { width: auto; margin-right: 15px; font-weight: normal; }
+        .btn { padding: 10px 20px; margin: 5px; border: none; border-radius: 4px; cursor: pointer; color: white; }
+        .btn-save { background-color: #4CAF50; }
+        .btn-cancel { background-color: #f44336; }
+    </style>
+</head>
+<body>
+    <h1 th:text="${user.id != null ? 'Edit User' : 'Add New User'}"></h1>
+    
+    <form th:action="${user.id != null ? '/admin/update' : '/admin'}" 
+          th:object="${user}" method="post">
+        
+        <input type="hidden" th:field="*{id}" />
+        
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" id="username" th:field="*{username}" required />
+        </div>
+        
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" id="password" th:field="*{password}" 
+                   th:required="${user.id == null}" />
+            <span th:if="${user.id != null}" style="color: #666; font-size: 12px;">
+                (Leave blank to keep current password)
+            </span>
+        </div>
+        
+        <div class="form-group">
+            <label for="firstName">First Name:</label>
+            <input type="text" id="firstName" th:field="*{firstName}" />
+        </div>
+        
+        <div class="form-group">
+            <label for="lastName">Last Name:</label>
+            <input type="text" id="lastName" th:field="*{lastName}" />
+        </div>
+        
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" id="email" th:field="*{email}" />
+        </div>
+        
+        <div class="form-group">
+            <label>Roles:</label>
+            <div class="checkbox-group">
+                <div th:each="role : ${allRoles}">
+                    <label>
+                        <input type="checkbox" name="roleIds" th:value="${role.id}"
+                               th:checked="${user.roles != null && user.roles.contains(role)}" />
+                        <span th:text="${role.name}"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <button type="submit" class="btn btn-save">Save</button>
+            <a href="/admin" class="btn btn-cancel" style="text-decoration: none;">Cancel</a>
+        </div>
+    </form>
+</body>
+</html>
