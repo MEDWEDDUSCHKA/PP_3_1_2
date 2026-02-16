@@ -39,19 +39,12 @@ public class DataInitializer implements CommandLineRunner {
 
         if (userService.findByUsername("admin") == null) {
             User admin = new User("admin", "admin", "Admin", "Adminov", "admin@example.com");
-            Set<Role> adminRoles = new HashSet<>();
-            adminRoles.add(roleAdmin);
-            adminRoles.add(roleUser);
-            admin.setRoles(adminRoles);
-            userService.saveUser(admin);
+            userService.saveUser(admin, java.util.Arrays.asList(roleAdmin.getId(), roleUser.getId()));
         }
 
         if (userService.findByUsername("user") == null) {
             User user = new User("user", "user", "User", "Userov", "user@example.com");
-            Set<Role> userRoles = new HashSet<>();
-            userRoles.add(roleUser);
-            user.setRoles(userRoles);
-            userService.saveUser(user);
+            userService.saveUser(user, java.util.Arrays.asList(roleUser.getId()));
         }
     }
 }
