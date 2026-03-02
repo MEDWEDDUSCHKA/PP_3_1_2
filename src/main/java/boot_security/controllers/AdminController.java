@@ -36,8 +36,7 @@ public class AdminController {
     }
     
     @PostMapping
-    public String createUser(@ModelAttribute("user") User user, 
-                            @RequestParam("roleIds") List<Long> roleIds) {
+    public String createUser(@ModelAttribute("user") User user, @RequestParam("roleIds") List<Long> roleIds) {
         userService.saveUser(user, roleIds);
         return "redirect:/admin";
     }
@@ -51,13 +50,12 @@ public class AdminController {
     }
     
     @PostMapping("/update")
-    public String updateUser(@ModelAttribute("user") User user, 
-                            @RequestParam("roleIds") List<Long> roleIds) {
+    public String updateUser(@ModelAttribute("user") User user, @RequestParam("roleIds") List<Long> roleIds) {
         userService.updateUser(user, roleIds);
         return "redirect:/admin";
     }
     
-    @GetMapping("/delete/{id}")
+    @PostMapping("/delete/{id}")
     public String deleteUser(@PathVariable("id") Long id) {
         userService.deleteUser(id);
         return "redirect:/admin";
